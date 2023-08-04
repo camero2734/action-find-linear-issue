@@ -32,10 +32,10 @@
   resolved "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.1.1.tgz"
   integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
 
-"@linear/sdk@^1.22.0":
-  version "1.22.0"
-  resolved "https://registry.npmjs.org/@linear/sdk/-/sdk-1.22.0.tgz"
-  integrity sha512-QNWmtar3ZvxWmCdsAwpRU9EWHkxnopb8fsL/6JBvTiFyy4+DWRb9kW9s262njPy/Em07dU3FWSk8gcjQaoZ3kA==
+"@linear/sdk@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.npmjs.org/@linear/sdk/-/sdk-7.0.1.tgz"
+  integrity sha512-+t5yW3gHZHOvMCpK4wn7ucC3BATkody3MSL0QxrtL6JaqNPMfdDHYEI8J34A38IBpCudvNCugi5jqOewvwt+jg==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.0"
     graphql "^15.4.0"
@@ -127,10 +127,15 @@
   dependencies:
     "@octokit/openapi-types" "^12.11.0"
 
-"@vercel/ncc@^0.33.4":
-  version "0.33.4"
-  resolved "https://registry.npmjs.org/@vercel/ncc/-/ncc-0.33.4.tgz"
-  integrity sha512-ln18hs7dMffelP47tpkaR+V5Tj6coykNyxJrlcmCormPqRQjB/Gv4cu2FfBG+PMzIfdZp2CLDsrrB1NPU22Qhg==
+"@types/node@^20.4.7":
+  version "20.4.7"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.4.7.tgz"
+  integrity sha512-bUBrPjEry2QUTsnuEjzjbS7voGWCc30W0qzgMf90GPeDGFRakvrz47ju+oqDAKCXLUCe39u57/ORMl/O/04/9g==
+
+"@vercel/ncc@^0.36.1":
+  version "0.36.1"
+  resolved "https://registry.npmjs.org/@vercel/ncc/-/ncc-0.36.1.tgz"
+  integrity sha512-S4cL7Taa9yb5qbv+6wLgiKVZ03Qfkc4jGRuiUQMQ8HGBD5pcNRnHeYM33zBvJE4/zJGjJJ8GScB+WmTsn9mORw==
 
 before-after-hook@^2.2.0:
   version "2.2.3"
