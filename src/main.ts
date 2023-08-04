@@ -7,9 +7,10 @@ import {
   Project,
   Team,
 } from "@linear/sdk";
-import { context } from "@actions/github";
+import { context, getOctokit } from "@actions/github";
 import getTeams from "./getTeams";
 import getIssues, { IssueNumber } from "./getIssues";
+import { WebhookPayload } from "@actions/github/lib/interfaces";
 
 type InputMap = {
   apiKey: string;
@@ -20,6 +21,8 @@ type InputMap = {
   withTeam: boolean;
   withLabels: boolean;
   withProject: boolean;
+  prNumber: number;
+  githubKey: string;
 };
 
 type ApiKeyInput = Pick<LinearClientOptions, "apiKey">;
@@ -56,7 +59,23 @@ const main = async () => {
       withTeam: boolCheck(getInput("with-team"), true),
       withLabels: boolCheck(getInput("with-labels"), true),
       withProject: boolCheck(getInput("with-project"), true),
+      prNumber: Number(getInput("pr-number")),
+      githubKey: getInput("github-api-key"),
     };
+
+    if (inputs.prNumber && inputs.githubKey) {
+      debug(`Using PR number ${inputs.prNumber} from input`);
+      const octokit = getOctokit(inputs.githubKey);
+      const response = await octokit.rest.pulls.get({
+        ...context.repo,
+        pull_number: inputs.prNumber,
+      });
+      if (response.status !== 200) {
+        setFailed(`Could not load PR ${inputs.prNumber}`);
+        return;
+      }
+      context.payload.pull_request = response.data as WebhookPayload['pull_request'];
+    }
 
     const prParts: PartsType = {
       branch: {
