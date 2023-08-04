@@ -74,7 +74,8 @@ const main = async () => {
         setFailed(`Could not load PR ${inputs.prNumber}`);
         return;
       }
-      context.payload.pull_request = response.data as WebhookPayload['pull_request'];
+      context.payload.pull_request =
+        response.data as WebhookPayload["pull_request"];
     }
 
     const prParts: PartsType = {

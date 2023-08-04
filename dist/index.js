@@ -9700,7 +9700,23 @@ const main = async () => {
             withTeam: boolCheck((0, core_1.getInput)("with-team"), true),
             withLabels: boolCheck((0, core_1.getInput)("with-labels"), true),
             withProject: boolCheck((0, core_1.getInput)("with-project"), true),
+            prNumber: Number((0, core_1.getInput)("pr-number")),
+            githubKey: (0, core_1.getInput)("github-api-key"),
         };
+        if (inputs.prNumber && inputs.githubKey) {
+            (0, core_1.debug)(`Using PR number ${inputs.prNumber} from input`);
+            const octokit = (0, github_1.getOctokit)(inputs.githubKey);
+            const response = await octokit.rest.pulls.get({
+                ...github_1.context.repo,
+                pull_number: inputs.prNumber,
+            });
+            if (response.status !== 200) {
+                (0, core_1.setFailed)(`Could not load PR ${inputs.prNumber}`);
+                return;
+            }
+            github_1.context.payload.pull_request =
+                response.data;
+        }
         const prParts = {
             branch: {
                 value: github_1.context.payload.pull_request?.head.ref,
