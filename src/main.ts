@@ -124,9 +124,11 @@ const main = async () => {
     if (matches?.length) {
       debug(`Found numbers: ${matches.join(", ")}`);
 
-      const issueNumbers: IssueNumber[] = inputs.outputMultiple
-        ? matches.map(matchToIssueNumber)
-        : [matchToIssueNumber(matches[0])];
+      const issueNumbers: IssueNumber[] = matches
+        .map(matchToIssueNumber)
+        .filter(({ issueNumber }) => issueNumber > 0)
+        .slice(0, inputs.outputMultiple ? undefined : 1);
+
       debug(`Formatted issues: ${JSON.stringify(issueNumbers)}`);
 
       const issues: Issue[] = await getIssues(linearClient, ...issueNumbers);
@@ -138,6 +140,9 @@ const main = async () => {
         ): Promise<FoundIssueType[]> => {
           const promises = rawIssues.map(
             async (issue): Promise<FoundIssueType> => {
+              debug(
+                `Extending issue ${issue.id} withTeam: ${inputs.withTeam}, withLabels: ${inputs.withLabels}, withProject: ${inputs.withProject}`
+              );
               return {
                 ...(issue as LimitedIssue),
                 team: inputs.withTeam ? await issue.team : null,

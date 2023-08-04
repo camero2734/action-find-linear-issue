@@ -9757,15 +9757,17 @@ const main = async () => {
         const matches = haystack.match(regExp);
         if (matches?.length) {
             (0, core_1.debug)(`Found numbers: ${matches.join(", ")}`);
-            const issueNumbers = inputs.outputMultiple
-                ? matches.map(matchToIssueNumber)
-                : [matchToIssueNumber(matches[0])];
+            const issueNumbers = matches
+                .map(matchToIssueNumber)
+                .filter(({ issueNumber }) => issueNumber > 0)
+                .slice(0, inputs.outputMultiple ? undefined : 1);
             (0, core_1.debug)(`Formatted issues: ${JSON.stringify(issueNumbers)}`);
             const issues = await (0, getIssues_1.default)(linearClient, ...issueNumbers);
             (0, core_1.debug)(`Linear API issues result: ${JSON.stringify(issues)}`);
             if (issues.length) {
                 const extendIssues = (rawIssues) => {
                     const promises = rawIssues.map(async (issue) => {
+                        (0, core_1.debug)(`Extending issue ${issue.id} withTeam: ${inputs.withTeam}, withLabels: ${inputs.withLabels}, withProject: ${inputs.withProject}`);
                         return {
                             ...issue,
                             team: inputs.withTeam ? await issue.team : null,
